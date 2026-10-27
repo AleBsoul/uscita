@@ -5,11 +5,14 @@ const errorMessage = document.getElementById('errorMessage');
 const dateInput = document.getElementById('date');
 const timeInput = document.getElementById('time');
 
-// Il server delle mail gira sempre sulla porta 3000: se la pagina è aperta
-// con file:// o con Live Server (es. porta 5500) la richiesta va lì.
-const API_URL = (window.location.protocol === 'file:' || window.location.port !== '3000')
-    ? 'http://localhost:3000/api/appointment'
-    : '/api/appointment';
+// EmailJS (funziona anche su GitHub Pages, senza server)
+const EMAILJS_PUBLIC_KEY = '-OGn7hQuhz3_ZJoF3';
+const EMAILJS_SERVICE_ID = 'service_qdi7d0c';
+const EMAILJS_TEMPLATE_ID = 'template_4psp38h';
+
+if (typeof emailjs !== 'undefined') {
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+}
 
 function hideConfirmation() {
     confirmation.hidden = true;
@@ -23,6 +26,8 @@ const datePicker = flatpickr(dateInput, {
     minDate: 'today',
     disableMobile: true,
     allowInput: false,
+    // Su schermi bassi il calendario si apre verso l'alto per restare visibile
+    position: () => (window.innerHeight <= 640 ? 'above' : 'auto'),
     onChange: hideConfirmation,
 });
 
@@ -42,8 +47,17 @@ function pad(value) {
     return String(value).padStart(2, '0');
 }
 
-function toISODate(date) {
-    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+function formatDateLong(date) {
+    return date.toLocaleDateString('it-IT', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+    });
+}
+
+function formatDateShort(date) {
+    return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear()}`;
 }
 
 function showError(message) {
@@ -75,33 +89,33 @@ form.addEventListener('submit', async (event) => {
         return;
     }
 
-    const date = toISODate(selectedDate);
     const time = `${pad(selectedTime.getHours())}:${pad(selectedTime.getMinutes())}`;
+    const date = formatDateLong(selectedDate);
+    const dateShort = formatDateShort(selectedDate);
+
+    if (typeof emailjs === 'undefined') {
+        showError('Libreria email non caricata. Controlla la connessione e ricarica la pagina.');
+        return;
+    }
 
     confirmButton.disabled = true;
     confirmButton.textContent = 'Invio in corso...';
 
     try {
-        const response = await fetch(API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ date, time, place })
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+            date,
+            date_short: dateShort,
+            time,
+            place,
+            // Testo completo in un'unica variabile: utile se il template usa {{message}}
+            message: `Appuntamento confermato!\n\nData: ${date}\nOra: ${time}\nPosto: ${place}`,
         });
-
-        const result = await response.json().catch(() => ({}));
-
-        if (!response.ok || !result.ok) {
-            throw new Error(result.error || 'Invio email non riuscito.');
-        }
 
         confirmation.hidden = false;
     } catch (error) {
-        const isNetworkError = error instanceof TypeError;
-        showError(
-            isNetworkError
-                ? 'Impossibile contattare il server delle mail. Avvialo con "npm start" nella cartella "node mail-sender" e lascia il terminale aperto.'
-                : `${error.message} Controlla che il server sia avviato (npm start nella cartella "node mail-sender").`
-        );
+        console.error('Invio email fallito:', error);
+        const detail = error && error.text ? ` (${error.text})` : '';
+        showError(`Invio email non riuscito${detail}. Riprova tra poco.`);
     } finally {
         confirmButton.disabled = false;
         confirmButton.textContent = 'Conferma appuntamento';

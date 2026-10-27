@@ -17,24 +17,27 @@ body {
 }
 
 .header_text {
-    font-size: 2.5em;
+    font-size: 2.2em;
     color: #d32f2f;
-    margin-bottom: 10px;
+    margin: 0 0 8px;
 }
 
 .subtitle {
-    font-size: 1.1em;
+    font-size: 1.05em;
     color: #7a4b4b;
-    margin-top: 0;
-    margin-bottom: 25px;
+    margin: 0 0 14px;
+}
+
+.gif_container {
+    margin-bottom: 16px;
 }
 
 .appointment-form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
     background-color: #fff;
-    padding: 25px;
+    padding: 22px;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(211, 47, 47, 0.15);
     text-align: left;
@@ -115,11 +118,12 @@ body {
 }
 
 .gif_container img {
+    display: block;
     width: 100%;
-    max-width: 400px;
+    max-width: min(180px, 24vh);
     height: auto;
+    margin: 0 auto;
     border-radius: 10px;
-    margin-top: 25px;
 }
 
 /* Date/time picker: tema coerente con la pagina */
@@ -170,5 +174,44 @@ body {
     .confirm-button {
         font-size: 1em;
         padding: 12px 14px;
+    }
+}
+
+/* Schermi bassi: compatta tutto per far vedere GIF e box insieme */
+@media (max-height: 640px) {
+    .header_text {
+        font-size: 1.8em;
+        margin-bottom: 6px;
+    }
+
+    .subtitle {
+        font-size: 0.95em;
+        margin-bottom: 10px;
+    }
+
+    .gif_container {
+        margin-bottom: 12px;
+    }
+
+    .gif_container img {
+        max-width: min(120px, 20vh);
+    }
+
+    .appointment-form {
+        padding: 16px;
+        gap: 10px;
+    }
+
+    .field input {
+        padding: 8px 10px;
+    }
+
+    .confirm-button {
+        padding: 10px 14px;
+    }
+
+    /* Il calendario aperto verso l'alto non deve uscire dallo schermo */
+    .flatpickr-calendar.arrowBottom {
+        margin-top: 8px;
     }
 }

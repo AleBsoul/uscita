@@ -25,17 +25,15 @@ This project consists of a simple webpage with a "Yes" and "No" button. When the
 ## How to Use 
 
 1. **Download the Files**:
-   - Clone this repository or download the `index.html`, `styles.css`,`yes_style.css`,`yes_page.html` and `script.js` files.
+   - Clone this repository (servono `index.html`, `styles.css`, `script.js`, `yes_page.html`, `yes_page.js`, `yes_style.css` e la cartella `vendor/`).
 
 2. **Open the Project**:
-   - Avvia il server dalla cartella `node mail-sender`:
+   - Apri `index.html` nel browser: la mail viene inviata con EmailJS dal browser, senza server.
+   - Per una preview locale con un server statico, ad esempio:
      ```bash
-     cd "node mail-sender"
-     npm install
-     npm start
+     python3 -m http.server 8000
      ```
-   - Poi apri `http://localhost:3000` nel browser.
-   - In alternativa puoi aprire `index.html` direttamente, ma per inviare la mail serve il server avviato.
+     poi apri `http://localhost:8000`.
 
 
 
@@ -43,19 +41,19 @@ This project consists of a simple webpage with a "Yes" and "No" button. When the
 
 ## Appuntamento e notifica email
 
-Nella pagina `yes_page.html` (dopo aver cliccato "Sì") si scelgono **data**, **ora** e **posto** dell'appuntamento. Alla conferma il browser invia i dati all'endpoint `POST /api/appointment` del server Express in `node mail-sender/server.js`, che manda una mail con i dettagli a `mailconf.mail`.
+Nella pagina `yes_page.html` (dopo aver cliccato "Sì") si scelgono **data**, **ora** e **posto** dell'appuntamento. Alla conferma il browser invia i dati tramite **EmailJS** (`vendor/emailjs/`), che manda la mail al tuo indirizzo. Così la pagina funziona anche su hosting statico come GitHub Pages, senza backend.
 
-Le credenziali SMTP stanno in `node mail-sender/mailconf.json` (ignorato da git):
+Configurazione in `yes_page.js`:
 
-```json
-{
-    "user": "tua-mail@gmail.com",
-    "pass": "password-app-gmail",
-    "mail": "destinatario@gmail.com"
-}
+```js
+const EMAILJS_PUBLIC_KEY = '-OGn7hQuhz3_ZJoF3';
+const EMAILJS_SERVICE_ID = 'service_qdi7d0c';
+const EMAILJS_TEMPLATE_ID = 'template_4psp38h';
 ```
 
-`pass` deve essere una **password per le app** Gmail, non la password normale dell'account.
+Il template EmailJS riceve le variabili `{{date}}` (es. "sabato 15 novembre 2026"), `{{date_short}}` (es. "15/11/2026"), `{{time}}` (es. "20:30") e `{{place}}`.
+
+Le librerie usate dalla pagina sono incluse in `vendor/`: `flatpickr` (calendario in italiano) ed `emailjs` (invio mail). Per il sito pubblicato non serve alcun backend.
 
 ---
 
@@ -69,6 +67,8 @@ Le credenziali SMTP stanno in `node mail-sender/mailconf.json` (ignorato da git)
 - `script.js`: The JavaScript file that handles the button interactions.
 - `yes_page.html`: The yes page that sturctures the webpage.
 - `yes_style.css`: The css file that styles the yes webpage.
+- `yes_page.js`: Calendario/orologio in italiano e invio della mail con EmailJS.
+- `vendor/`: `flatpickr` (date/time picker) ed `emailjs` (invio mail), inclusi localmente.
 
 
 
