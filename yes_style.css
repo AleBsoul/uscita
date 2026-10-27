@@ -2,23 +2,173 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
     background-color: #f9e3e3;
     font-family: 'Arial', sans-serif;
 }
 
 .container {
     text-align: center;
+    max-width: 500px;
+    width: 100%;
 }
 
 .header_text {
-    font-size: 3em;
+    font-size: 2.5em;
     color: #d32f2f;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 1.1em;
+    color: #7a4b4b;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+.appointment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(211, 47, 47, 0.15);
+    text-align: left;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.field label {
+    font-weight: bold;
+    color: #d32f2f;
+    font-size: 0.95em;
+}
+
+.field input {
+    font-size: 1em;
+    font-family: inherit;
+    padding: 10px 12px;
+    border: 2px solid #f3c1c1;
+    border-radius: 8px;
+    color: #333;
+    background-color: #fffaf9;
+    box-sizing: border-box;
+}
+
+.field input:focus {
+    outline: none;
+    border-color: #d32f2f;
+    background-color: #fff;
+}
+
+.confirm-button {
+    font-size: 1.1em;
+    font-family: inherit;
+    padding: 12px 20px;
+    margin-top: 5px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.confirm-button:hover {
+    background-color: #43a047;
+}
+
+.confirm-button:active {
+    transform: scale(0.98);
+}
+
+.confirm-button:disabled {
+    opacity: 0.7;
+    cursor: wait;
+}
+
+.error {
+    margin: 0;
+    padding: 10px 12px;
+    background-color: #fdecea;
+    color: #b71c1c;
+    border: 1px solid #f5c6c2;
+    border-radius: 8px;
+    font-size: 0.95em;
+    text-align: center;
+}
+
+.confirmation {
+    margin: 0;
+    color: #2e7d32;
+    font-size: 0.95em;
+    font-weight: bold;
+    text-align: center;
 }
 
 .gif_container img {
-    width: 100%; 
-    max-width: 500px; 
-    height: auto; 
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 10px;
+    margin-top: 25px;
+}
+
+/* Date/time picker: tema coerente con la pagina */
+.field input[readonly] {
+    cursor: pointer;
+}
+
+.flatpickr-calendar {
+    font-family: inherit;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(211, 47, 47, 0.2);
+}
+
+.flatpickr-day.selected,
+.flatpickr-day.selected:hover {
+    background-color: #d32f2f;
+    border-color: #d32f2f;
+}
+
+.flatpickr-day.today {
+    border-color: #d32f2f;
+}
+
+.flatpickr-day:hover {
+    background-color: #fdecea;
+}
+
+.flatpickr-months .flatpickr-month,
+.flatpickr-time .flatpickr-time-separator,
+.flatpickr-time input {
+    color: #333;
+}
+
+/* Schermi molto piccoli */
+@media (max-width: 360px) {
+    body {
+        padding: 14px;
+    }
+
+    .header_text {
+        font-size: 2.1em;
+    }
+
+    .appointment-form {
+        padding: 18px;
+    }
+
+    .confirm-button {
+        font-size: 1em;
+        padding: 12px 14px;
+    }
 }

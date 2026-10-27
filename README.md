@@ -28,8 +28,34 @@ This project consists of a simple webpage with a "Yes" and "No" button. When the
    - Clone this repository or download the `index.html`, `styles.css`,`yes_style.css`,`yes_page.html` and `script.js` files.
 
 2. **Open the Project**:
-   - Open the `index.html` file in your web browser.
+   - Avvia il server dalla cartella `node mail-sender`:
+     ```bash
+     cd "node mail-sender"
+     npm install
+     npm start
+     ```
+   - Poi apri `http://localhost:3000` nel browser.
+   - In alternativa puoi aprire `index.html` direttamente, ma per inviare la mail serve il server avviato.
 
+
+
+---
+
+## Appuntamento e notifica email
+
+Nella pagina `yes_page.html` (dopo aver cliccato "Sì") si scelgono **data**, **ora** e **posto** dell'appuntamento. Alla conferma il browser invia i dati all'endpoint `POST /api/appointment` del server Express in `node mail-sender/server.js`, che manda una mail con i dettagli a `mailconf.mail`.
+
+Le credenziali SMTP stanno in `node mail-sender/mailconf.json` (ignorato da git):
+
+```json
+{
+    "user": "tua-mail@gmail.com",
+    "pass": "password-app-gmail",
+    "mail": "destinatario@gmail.com"
+}
+```
+
+`pass` deve essere una **password per le app** Gmail, non la password normale dell'account.
 
 ---
 

@@ -1,17 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Knew you would say yes!</title>
+    <link rel="stylesheet" href="./vendor/flatpickr/flatpickr.min.css">
     <link rel="stylesheet" href="./yes_style.css">
 </head>
 <body>
     <div class="container">
-        <h1 class="header_text">Knew you would say yes!</h1>
+        <h1 class="header_text">Sapevo che avresti detto sì! ❤️</h1>
+        <p class="subtitle">Ora scegliamo quando e dove vederci.</p>
+
+        <form class="appointment-form" id="appointmentForm">
+            <div class="field">
+                <label for="date">Data</label>
+                <input type="text" id="date" name="date" placeholder="gg/mm/aaaa" autocomplete="off" readonly required>
+            </div>
+
+            <div class="field">
+                <label for="time">Ora</label>
+                <input type="text" id="time" name="time" placeholder="hh:mm" autocomplete="off" readonly required>
+            </div>
+
+            <div class="field">
+                <label for="place">Posto</label>
+                <input type="text" id="place" name="place" placeholder="Es. Bar in centro, Cinema..." list="placeSuggestions" required>
+                <datalist id="placeSuggestions">
+                    <option value="Bar in centro"></option>
+                    <option value="Pizzeria"></option>
+                    <option value="Cinema"></option>
+                    <option value="Passeggiata al parco"></option>
+                    <option value="Gelateria"></option>
+                </datalist>
+            </div>
+
+            <button type="submit" class="confirm-button" id="confirmButton">Conferma appuntamento</button>
+            <p class="confirmation" id="confirmation" role="status" aria-live="polite" hidden>Appuntamento confermato ✓</p>
+            <p class="error" id="errorMessage" role="alert" hidden></p>
+        </form>
+
         <div class="gif_container">
-            <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExa3gzMzkwOGQycXcybDYwYmloOHc3M3F3N29jeTdoa2d3aXFreG15aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/t8xgPfC5oNIRMrNooe/giphy.gif">
+            <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExa3gzMzkwOGQycXcybDYwYmloOHc3M3F3N29jeTdoa2d3aXFreG15aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/t8xgPfC5oNIRMrNooe/giphy.gif" alt="Cute GIF">
         </div>
     </div>
+
+    <script src="./vendor/flatpickr/flatpickr.min.js"></script>
+    <script src="./vendor/flatpickr/it.js"></script>
+    <script src="./yes_page.js"></script>
 </body>
 </html>
